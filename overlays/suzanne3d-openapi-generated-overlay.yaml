@@ -1,0 +1,49 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Suzanne API (generated contract)
+  version: '2026-10-07'
+extends: openapi/_ae-authored/suzanne3d-openapi-generated.yml
+x-generated: '2026-10-07'
+x-method: generated
+actions:
+- target: $.info
+  update:
+    x-apievangelist:
+      provider: suzanne3d
+      contract_provenance: generated-from-documentation
+      docs: https://console.suzanne3d.com/documentation/
+      status_page: https://www.suzanne3d.com/status
+- target: $.paths[*][*]
+  update:
+    x-apievangelist-async:
+      pattern: submit-poll-download
+      poll: GET /v1/jobs/{job_id}
+      terminal_statuses:
+      - done
+      - failed
+      - cancelled
+- target: $.paths['/v1/generations/text-to-3d'].post
+  update:
+    x-apievangelist-idempotency:
+      header: Idempotency-Key
+      retention: 24 h
+      conflict_status: 409
+- target: $.paths['/v1/generations/photo-to-3d'].post
+  update:
+    x-apievangelist-idempotency:
+      header: Idempotency-Key
+      retention: 24 h
+      conflict_status: 409
+- target: $.paths['/v1/jobs/{job_id}/cancel'].post
+  update:
+    x-apievangelist-reversal:
+      reverses:
+      - createTextTo3dGeneration
+      - createPhotoTo3dGeneration
+      window: queued or running; best-effort
+- target: $.paths['/v1/uploads'].post
+  update:
+    x-apievangelist-limits:
+      uploaded_image_size: ≤ 20 MB
+      presigned_put_ttl: 5 min
+      object_lifetime: 7 days

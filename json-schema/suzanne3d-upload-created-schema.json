@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/suzanne3d/main/json-schema/suzanne3d-upload-created-schema.json",
+  "title": "UploadCreated",
+  "x-generated": "2026-10-07",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/UploadCreated",
+  "type": "object",
+  "properties": {
+    "upload_id": {
+      "type": "string",
+      "description": "upl_<uuid>"
+    },
+    "upload_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Presigned S3 PUT URL, valid 5 minutes. Do NOT send a Content-Type header on the PUT."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

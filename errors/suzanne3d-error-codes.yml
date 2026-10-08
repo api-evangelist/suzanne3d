@@ -1,0 +1,49 @@
+generated: '2026-10-07'
+method: searched
+source: https://console.suzanne3d.com/documentation/errors
+format: job-error-object
+envelope:
+  shape: 'GET /v1/jobs/{job_id} -> status: "failed", error: { "code", "message" }'
+note: 'Job-failure codes: these are not HTTP statuses; they appear in the error object of a job whose status is
+  failed. status below is the job status.'
+problems:
+- status: failed
+  title: vendor_model_error
+  type: vendor_model_error
+  description: The upstream model rejected the input or produced no mesh.
+  remediation: Surface to the caller; the request is refunded; do not auto-retry.
+- status: failed
+  title: vendor_http_error
+  type: vendor_http_error
+  description: The vendor returned an HTTP error mid-job.
+  remediation: Surface to the caller; do not auto-retry.
+- status: failed
+  title: vendor_timeout
+  type: vendor_timeout
+  description: The vendor didn't respond within our deadline.
+  remediation: Surface to the caller; do not auto-retry.
+- status: failed
+  title: vendor_not_configured
+  type: vendor_not_configured
+  description: The upstream vendor required for this request shape isn't provisioned for the account. Contact support.
+  remediation: Contact support.
+- status: failed
+  title: missing_image
+  type: missing_image
+  description: A referenced upload_id doesn't resolve to an object in S3.
+  remediation: Re-upload the image (uploads expire after 7 days) and resubmit.
+- status: failed
+  title: insufficient_views
+  type: insufficient_views
+  description: Multi-view job submitted without enough valid views.
+  remediation: Submit all required views (capture needs front/back/left/right).
+- status: failed
+  title: job_cancelled
+  type: job_cancelled
+  description: The job was cancelled before completion.
+  remediation: No action; the cancellation stands.
+- status: failed
+  title: sqs_enqueue_failed
+  type: sqs_enqueue_failed
+  description: Internal queue rejected the job; safe to retry.
+  remediation: Retry the submission.

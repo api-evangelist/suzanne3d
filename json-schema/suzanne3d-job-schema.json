@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/suzanne3d/main/json-schema/suzanne3d-job-schema.json",
+  "title": "Job",
+  "x-generated": "2026-10-07",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/Job",
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "running",
+        "done",
+        "failed",
+        "cancelled"
+      ]
+    },
+    "model": {
+      "type": "string",
+      "enum": [
+        "sculptor",
+        "atelier",
+        "capture"
+      ],
+      "description": "Stable named model; all three run on the Atelier2 engine."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "format": {
+            "type": "string",
+            "enum": [
+              "glb",
+              "obj",
+              "stl",
+              "fbx"
+            ]
+          },
+          "download_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Stable download URL; call it to get a fresh 15-minute presigned S3 URL."
+          }
+        }
+      }
+    },
+    "error": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/JobError"
+        }
+      ],
+      "description": "Set when status == \"failed\"."
+    }
+  },
+  "$defs": {
+    "JobError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "vendor_model_error",
+            "vendor_http_error",
+            "vendor_timeout",
+            "vendor_not_configured",
+            "missing_image",
+            "insufficient_views",
+            "job_cancelled",
+            "sqs_enqueue_failed"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

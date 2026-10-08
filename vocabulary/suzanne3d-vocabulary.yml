@@ -1,0 +1,70 @@
+generated: '2026-10-07'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/_ae-authored/suzanne3d-openapi-generated.yml
+vocabulary:
+  name: Suzanne Domain Vocabulary
+  description: 'Terms declared by Suzanne''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-07'
+  terms:
+  - term: Generations
+    definition: Submit text-to-3D and photo-to-3D jobs
+    tags:
+    - Resource Group
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml
+  - term: Uploads
+    definition: Presigned image uploads
+    tags:
+    - Resource Group
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml
+  - term: Jobs
+    definition: Poll and cancel jobs
+    tags:
+    - Resource Group
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml
+  - term: Models
+    definition: Download finished meshes
+    tags:
+    - Resource Group
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml
+  - term: TextTo3dRequest
+    definition: 'Object declared by the contract with fields: model, prompt, params, outputs.'
+    tags:
+    - Object
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/TextTo3dRequest
+  - term: PhotoTo3dRequest
+    definition: 'Object declared by the contract with fields: model, images_upload_ids, images_inline, params, outputs.'
+    tags:
+    - Object
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/PhotoTo3dRequest
+  - term: JobAccepted
+    definition: 'Object declared by the contract with fields: job_id, status, created_at, billable_amount_cents.'
+    tags:
+    - Object
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/JobAccepted
+  - term: Job
+    definition: 'Object declared by the contract with fields: job_id, status, model, created_at, updated_at, completed_at, outputs, error.'
+    tags:
+    - Object
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/Job
+  - term: JobError
+    definition: 'Object declared by the contract with fields: code, message.'
+    tags:
+    - Object
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/JobError
+  - term: UploadCreated
+    definition: 'Object declared by the contract with fields: upload_id, upload_url, expires_at.'
+    tags:
+    - Object
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/UploadCreated
+  - term: CancelResult
+    definition: 'Object declared by the contract with fields: job_id, status, already_terminal.'
+    tags:
+    - Object
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/CancelResult
+  - term: Error
+    definition: 'Object declared by the contract with fields: error.'
+    tags:
+    - Object
+    source: openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/Error

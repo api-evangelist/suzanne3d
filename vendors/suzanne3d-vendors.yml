@@ -1,0 +1,64 @@
+generated: '2026-10-07'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: aws-api-gateway
+  name: Amazon API Gateway
+  area: api-gateway
+  host: api.suzanne3d.com
+  evidence: cname:execute-api.
+  signal: cname
+  confidence: high
+  kin_score: []
+- vendor: cloudfront
+  name: Amazon CloudFront
+  area: cdn
+  host: console.suzanne3d.com
+  evidence: cname:cloudfront.net
+  signal: cname
+  confidence: high
+  kin_score: []
+- vendor: vercel
+  name: Vercel
+  area: hosting
+  host: www.suzanne3d.com
+  evidence: cname:vercel-dns.com
+  signal: cname
+  confidence: high
+  kin_score: []
+reliance:
+  areas_vendor_served:
+  - api-gateway
+  - cdn
+  - hosting
+  vendor_count: 3
+  areas_observed: 12
+  share_of_observable_areas: 0.25
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: no-docs-host'
+- www.suzanne3d.com (StatusPage)
+- suzanne3d.com (Website)
+- console.suzanne3d.com (DeveloperPortal)
+- console.suzanne3d.com (Documentation)
+- console.suzanne3d.com (APIReference)
+- console.suzanne3d.com (GettingStarted)
+- console.suzanne3d.com (SignUp)
+- console.suzanne3d.com (Login)
+- www.suzanne3d.com (Support)
+- api.suzanne3d.com (baseURL)

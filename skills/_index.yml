@@ -1,0 +1,22 @@
+generated: '2026-10-07'
+method: generated
+provider: suzanne3d
+contract: openapi/_ae-authored/suzanne3d-openapi-generated.yml
+skills:
+- name: suzanne3d-generate-mesh-from-text
+  file: skills/suzanne3d-generate-mesh-from-text.md
+  operations:
+  - createTextTo3dGeneration
+  - getJob
+  - downloadModel
+  - cancelJob
+- name: suzanne3d-generate-mesh-from-photos
+  file: skills/suzanne3d-generate-mesh-from-photos.md
+  operations:
+  - createUpload
+  - createPhotoTo3dGeneration
+  - getJob
+  - downloadModel
+provider_published: false
+note: No provider-published skills or AGENTS.md found; the docs ship a Claude Code integration prompt at https://console.suzanne3d.com/documentation/claude-code-integration,
+  which is a client-scaffolding prompt rather than an agent skill.

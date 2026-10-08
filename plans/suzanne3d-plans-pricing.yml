@@ -1,0 +1,55 @@
+generated: '2026-10-07'
+method: searched
+source: https://www.suzanne3d.com/terms
+sources:
+- https://www.suzanne3d.com/terms
+- https://console.suzanne3d.com/documentation/models
+name: Suzanne plans and pricing
+audience: business-product
+pricing_basis: tiered-subscription
+published: true
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-07'
+  managed_tier: Professional
+currency: USD
+plan_count: 3
+note: 'Suzanne publishes no pricing page (www.suzanne3d.com/pricing renders the Book-a-demo form). The product tiers
+  are stated in section 4 of the Terms of Service, which is a JavaScript-rendered page (plain GET returns a 4.5KB
+  shell; quotes were read from the rendered text). API pricing is explicitly not published: the Terms say Enterprise
+  and API pricing is quoted per team, and the Models docs say Pricing is set per account: see your account team
+  for the rate sheet.'
+plans:
+- name: Free tier
+  price_text: 'Free tier: 30 credits per month, no card required'
+  price: 0
+  currency: USD
+  period: month
+  included_quota: 30 credits per month
+  features:
+  - 30 credits per month
+  - No card required
+  limits:
+  - name: credits
+    limit_text: 30 credits per month
+- name: Professional
+  price_text: Professional ($40/mo, or $32/mo billed yearly) tops up your credits on each billing date
+  currency: USD
+  period: month
+  features:
+  - Tops up your credits on each billing date
+  - $32/mo billed yearly
+  limits: []
+- name: Enterprise
+  price_text: Enterprise and API pricing is quoted per team
+  price: Contact sales
+  features:
+  - Shared seats
+  - Batch fulfillment
+  - A dedicated contact
+  limits: []
+api_pricing:
+  published: false
+  statement: Enterprise and API pricing is quoted per team
+  source: https://www.suzanne3d.com/terms

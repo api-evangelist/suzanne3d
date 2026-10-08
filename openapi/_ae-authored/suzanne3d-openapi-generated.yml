@@ -1,0 +1,501 @@
+openapi: 3.1.0
+info:
+  title: Suzanne API
+  version: '2026-10-07'
+  description: 'Turn a text prompt or 1-4 photos into a textured 3D mesh. The API returns standard GLB (and optionally OBJ
+    / STL / FBX). Submit a job, poll GET /v1/jobs/{job_id} until it is terminal, then download. Base URL: https://api.suzanne3d.com.
+    GENERATED FROM DOCUMENTATION by API Evangelist; Suzanne publishes no machine-readable contract.'
+  x-evidence-tiers:
+    code-example: 2
+    documentation: 5
+    pages-with-code: 4
+    pages-read: 17
+  x-generated-from: documentation
+  x-provenance: generated
+  x-authored-by: API Evangelist
+  x-generated: '2026-10-07'
+  x-generator: generate-contract-from-docs.py
+  x-engine: anthropic
+  x-sources:
+  - https://console.suzanne3d.com/documentation
+  - https://console.suzanne3d.com/documentation/errors
+  - https://console.suzanne3d.com/documentation/quickstart
+  - https://console.suzanne3d.com/documentation/authentication
+  - https://console.suzanne3d.com/documentation/models
+  - https://console.suzanne3d.com/documentation/atelier2
+  - https://console.suzanne3d.com/documentation/parameters
+  - https://console.suzanne3d.com/documentation/idempotency
+  - https://console.suzanne3d.com/documentation/text-to-3d
+  - https://console.suzanne3d.com/documentation/photo-to-3d
+  - https://console.suzanne3d.com/documentation/uploads
+  - https://console.suzanne3d.com/documentation/jobs
+  - https://console.suzanne3d.com/documentation/cancel-job
+  - https://console.suzanne3d.com/documentation/download-model
+  - https://console.suzanne3d.com/documentation/limits
+  - https://console.suzanne3d.com/documentation/recipes
+  - https://console.suzanne3d.com/documentation/claude-code-integration
+  x-repair:
+    date: '2026-10-07'
+    by: enrichment pass (script-gated)
+    reason: generate-contract-from-docs.py kept 0 operations from the six endpoint pages and its collapse step merged the
+      sibling literal paths /v1/generations/text-to-3d + /v1/generations/photo-to-3d into /v1/generations/{generationid} and
+      /v1/uploads into /v1/{v1id}; those paths exist on no page. The operations below were re-derived one per endpoint page,
+      each METHOD + path gated verbatim against that page; schemas carry only the fields the page example responses show.
+servers:
+- url: https://api.suzanne3d.com
+paths:
+  /v1/generations/text-to-3d:
+    post:
+      operationId: createTextTo3dGeneration
+      tags:
+      - Generations
+      summary: Submit a text-to-3D job
+      description: 'Submit a text prompt and get back a job_id you can poll until the mesh is ready. model: sculptor, or atelier
+        for premium PBR + detailed textures; capture is photo-only and not valid here.'
+      parameters:
+      - &id002
+        name: Idempotency-Key
+        in: header
+        required: false
+        schema:
+          type: string
+        description: 'Pass Idempotency-Key: <your-random-key> on any POST /v1/generations/... request to make the call safe
+          to retry. Same key within 24 h returns the original response; different body + same key -> 409 idempotency_key_conflict.
+          Recommended: a UUID per logical request.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextTo3dRequest'
+      responses:
+        '202': &id003
+          description: '202 Accepted: the job is queued. Poll GET /v1/jobs/{job_id} until status is done, failed, or cancelled.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobAccepted'
+        '400':
+          description: validation_error | missing_body | invalid_param
+          content: &id001
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: unauthorized
+          content: *id001
+        '409':
+          description: idempotency_key_conflict | concurrent_limit_reached
+          content: *id001
+      x-source: https://console.suzanne3d.com/documentation/text-to-3d
+      x-evidence:
+        kind: documentation
+        response_status_on_page: 'Response: 202 Accepted'
+  /v1/generations/photo-to-3d:
+    post:
+      operationId: createPhotoTo3dGeneration
+      tags:
+      - Generations
+      summary: Submit a photo-to-3D job
+      description: 'Submit 1-4 photos and get back a job_id. Two ways to provide images, pick exactly one: images_upload_ids
+        (upload-then-reference, up to 4 views: front required; back/left/right optional for sculptor; capture requires all
+        four) or images_inline (single-photo base64, <= ~5 MB). Single-photo and multi-view auto-route inside the Atelier2
+        engine.'
+      parameters:
+      - *id002
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhotoTo3dRequest'
+      responses:
+        '202': *id003
+        '400':
+          description: validation_error | inline_multi_photo_not_supported | invalid_param
+          content: *id001
+        '401':
+          description: unauthorized
+          content: *id001
+        '409':
+          description: concurrent_limit_reached
+          content: *id001
+      x-source: https://console.suzanne3d.com/documentation/photo-to-3d
+      x-evidence:
+        kind: documentation
+        response_status_on_page: 'Response: 202 Accepted'
+  /v1/uploads:
+    post:
+      operationId: createUpload
+      tags:
+      - Uploads
+      summary: Create a presigned upload URL
+      description: Get a 5-minute presigned PUT URL so the client uploads a JPEG/PNG directly to S3 (bypasses the API Gateway
+        10 MB body limit). Empty body, just the auth header. Then PUT the image to upload_url WITHOUT a Content-Type header.
+        The object auto-expires after 7 days.
+      responses:
+        '201':
+          description: 201 Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadCreated'
+        '401':
+          description: unauthorized
+          content: *id001
+        '500':
+          description: 'internal: could not generate a presigned URL; retry'
+          content: *id001
+      x-source: https://console.suzanne3d.com/documentation/uploads
+      x-evidence:
+        kind: documentation
+        response_status_on_page: 'Response: 201 Created'
+  /v1/jobs/{job_id}:
+    get:
+      operationId: getJob
+      tags:
+      - Jobs
+      summary: Poll job status
+      description: Poll job status. Returns the current state plus download URLs once the mesh is ready. Typical job latency
+        is 30 s - 2 min for single-image, 1 - 4 min for multi-view. Poll every 5-10 s; give up after 20 min.
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: job_<uuid>
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          description: unauthorized
+          content: *id001
+        '404':
+          description: 'not_found: no such job, or it belongs to a different account'
+          content: *id001
+      x-source: https://console.suzanne3d.com/documentation/jobs
+      x-evidence:
+        kind: documentation
+        response_status_on_page: 'Response: 200 OK'
+  /v1/jobs/{job_id}/cancel:
+    post:
+      operationId: cancelJob
+      tags:
+      - Jobs
+      summary: Cancel a queued or running job
+      description: 'Cancel a queued or running job. Best-effort; if the job is already running, the worker checks for cancellation
+        between vendor calls and refunds the bill if it stops. already_terminal: true means the job was already done / failed
+        / cancelled (no-op).'
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: 200 OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelResult'
+        '401':
+          description: unauthorized
+          content: *id001
+        '404':
+          description: not_found
+          content: *id001
+      x-source: https://console.suzanne3d.com/documentation/cancel-job
+      x-evidence:
+        kind: documentation
+        response_status_on_page: 'Response: 200 OK'
+  /v1/models/{job_id}/download:
+    get:
+      operationId: downloadModel
+      tags:
+      - Models
+      summary: Download the mesh
+      description: Returns a 302 Found redirect to a fresh 15-min presigned S3 URL for the requested format. Follow the redirect.
+        The format must have been listed in the job outputs array. The URL is unguessable but not private; re-request anytime
+        to mint a fresh one.
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - glb
+          - obj
+          - stl
+          - fbx
+        description: The format must have been listed in the job outputs array.
+      responses:
+        '302':
+          description: 302 Found redirect to a fresh 15-minute presigned S3 URL
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+        '401':
+          description: unauthorized
+          content: *id001
+        '404':
+          description: 'not_found: no such job, or the requested format was not produced'
+          content: *id001
+        '409':
+          description: 'job_not_done: poll GET /v1/jobs/{job_id} first'
+          content: *id001
+      x-source: https://console.suzanne3d.com/documentation/download-model
+      x-evidence:
+        kind: documentation
+        response_status_on_page: Returns a 302 Found redirect
+components:
+  schemas:
+    TextTo3dRequest:
+      type: object
+      required:
+      - model
+      - prompt
+      properties:
+        model: &id004
+          type: string
+          enum:
+          - sculptor
+          - atelier
+          - capture
+          description: Stable named model; all three run on the Atelier2 engine.
+        prompt:
+          type: string
+          minLength: 1
+          maxLength: 4000
+          description: 1-4000 characters describing the mesh you want.
+        params: &id005
+          type: object
+          description: Generation Parameters (apply to text-to-3D and photo-to-3D).
+          properties:
+            faces:
+              type: integer
+              enum:
+              - 200000
+              - 500000
+              - 1000000
+              - 2000000
+              default: 500000
+              description: Target polygon count, chosen from a discrete menu. Values that do not apply to a given path are
+                clamped to the closest supported value.
+            pbr:
+              type: boolean
+              default: true
+              description: Generate PBR textures (base color + metallic-roughness + normal). Disable for flat-shaded output.
+            quad:
+              type: boolean
+              default: false
+              description: When true, produces a quad-topology mesh (capped at 150000 faces, delivered as FBX).
+            texture_quality:
+              type: string
+              enum:
+              - standard
+              - detailed
+              description: '"detailed" for atelier, "standard" otherwise.'
+        outputs: &id006
+          type: array
+          items:
+            type: string
+            enum:
+            - glb
+            - obj
+            - stl
+            - fbx
+          default:
+          - glb
+          description: Any subset of ["glb", "obj", "stl", "fbx"] (default ["glb"]).
+    PhotoTo3dRequest:
+      type: object
+      required:
+      - model
+      properties:
+        model: *id004
+        images_upload_ids:
+          type: object
+          description: Upload-then-reference (recommended, supports up to 4 views). front is required; back / left / right
+            are optional for sculptor; capture requires all four.
+          properties:
+            front:
+              type: string
+              description: upl_<uuid> from POST /v1/uploads
+            back:
+              type: string
+              description: upl_<uuid> from POST /v1/uploads
+            left:
+              type: string
+              description: upl_<uuid> from POST /v1/uploads
+            right:
+              type: string
+              description: upl_<uuid> from POST /v1/uploads
+        images_inline:
+          type: object
+          description: Inline base64 (single-photo only, <= ~5 MB). Multi-view inline is not supported.
+          properties:
+            front:
+              type: string
+              description: base64-jpeg-or-png
+        params: *id005
+        outputs: *id006
+    JobAccepted:
+      type: object
+      properties:
+        job_id:
+          type: string
+          description: job_<uuid>
+        status:
+          type: string
+          enum:
+          - queued
+        created_at:
+          type: string
+          format: date-time
+        billable_amount_cents:
+          type: integer
+    Job:
+      type: object
+      properties:
+        job_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - queued
+          - running
+          - done
+          - failed
+          - cancelled
+        model: *id004
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        completed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        outputs:
+          type: array
+          items:
+            type: object
+            properties:
+              format:
+                type: string
+                enum:
+                - glb
+                - obj
+                - stl
+                - fbx
+              download_url:
+                type: string
+                format: uri
+                description: Stable download URL; call it to get a fresh 15-minute presigned S3 URL.
+        error:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/JobError'
+          description: Set when status == "failed".
+    JobError:
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+          - vendor_model_error
+          - vendor_http_error
+          - vendor_timeout
+          - vendor_not_configured
+          - missing_image
+          - insufficient_views
+          - job_cancelled
+          - sqs_enqueue_failed
+        message:
+          type: string
+    UploadCreated:
+      type: object
+      properties:
+        upload_id:
+          type: string
+          description: upl_<uuid>
+        upload_url:
+          type: string
+          format: uri
+          description: Presigned S3 PUT URL, valid 5 minutes. Do NOT send a Content-Type header on the PUT.
+        expires_at:
+          type: string
+          format: date-time
+    CancelResult:
+      type: object
+      properties:
+        job_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - cancelled
+          - queued
+          - running
+          - done
+          - failed
+        already_terminal:
+          type: boolean
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - invalid_request
+              - auth
+              - rate_limit
+              - internal
+              - vendor
+            code:
+              type: string
+              description: machine-readable string
+            message:
+              type: string
+            request_id:
+              type: string
+              description: Always include request_id in support requests.
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      description: 'Authorization: Bearer <key>. Keys start with sznn_test_ (sandbox) or sznn_live_ (production). Server-side
+        only.'
+security:
+- bearer: []
+tags:
+- name: Generations
+  description: Submit text-to-3D and photo-to-3D jobs
+- name: Uploads
+  description: Presigned image uploads
+- name: Jobs
+  description: Poll and cancel jobs
+- name: Models
+  description: Download finished meshes

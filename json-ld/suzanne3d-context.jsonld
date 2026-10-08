@@ -1,0 +1,96 @@
+{
+  "@context": {
+    "@vocab": "https://suzanne3d.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "suzanne3d": "https://suzanne3d.com/schema#",
+    "TextTo3dRequest": "suzanne3d:TextTo3dRequest",
+    "model": {
+      "@id": "suzanne3d:model",
+      "@type": "xsd:string"
+    },
+    "prompt": {
+      "@id": "suzanne3d:prompt",
+      "@type": "xsd:string"
+    },
+    "params": {
+      "@id": "suzanne3d:params"
+    },
+    "outputs": {
+      "@id": "suzanne3d:outputs",
+      "@container": "@list"
+    },
+    "PhotoTo3dRequest": "suzanne3d:PhotoTo3dRequest",
+    "images_upload_ids": {
+      "@id": "suzanne3d:images_upload_ids"
+    },
+    "images_inline": {
+      "@id": "suzanne3d:images_inline"
+    },
+    "JobAccepted": "suzanne3d:JobAccepted",
+    "job_id": {
+      "@id": "suzanne3d:job_id",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "suzanne3d:status",
+      "@type": "xsd:string"
+    },
+    "created_at": {
+      "@id": "suzanne3d:created_at",
+      "@type": "xsd:dateTime"
+    },
+    "billable_amount_cents": {
+      "@id": "suzanne3d:billable_amount_cents",
+      "@type": "xsd:integer"
+    },
+    "Job": "suzanne3d:Job",
+    "updated_at": {
+      "@id": "suzanne3d:updated_at",
+      "@type": "xsd:dateTime"
+    },
+    "completed_at": {
+      "@id": "suzanne3d:completed_at",
+      "@type": "xsd:dateTime"
+    },
+    "error": {
+      "@id": "suzanne3d:error"
+    },
+    "JobError": "suzanne3d:JobError",
+    "code": {
+      "@id": "suzanne3d:code",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "suzanne3d:message",
+      "@type": "xsd:string"
+    },
+    "UploadCreated": "suzanne3d:UploadCreated",
+    "upload_id": {
+      "@id": "suzanne3d:upload_id",
+      "@type": "xsd:string"
+    },
+    "upload_url": {
+      "@id": "suzanne3d:upload_url",
+      "@type": "@id"
+    },
+    "expires_at": {
+      "@id": "suzanne3d:expires_at",
+      "@type": "xsd:dateTime"
+    },
+    "CancelResult": "suzanne3d:CancelResult",
+    "already_terminal": {
+      "@id": "suzanne3d:already_terminal",
+      "@type": "xsd:boolean"
+    },
+    "Error": "suzanne3d:Error"
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Suzanne API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Suzanne's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-07) from openapi/_ae-authored/suzanne3d-openapi-generated.yml.",
+  "dcterms:created": "2026-10-07",
+  "dcterms:source": [
+    "openapi/_ae-authored/suzanne3d-openapi-generated.yml"
+  ]
+}

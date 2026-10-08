@@ -1,23 +1,166 @@
 aid: suzanne3d
 name: Suzanne
-description: 'Suzanne is a company surfaced via the API Evangelist harvest backlog (source: monid-connectors)
-  and added to the network as a stub for full-pipeline profiling.'
+image: https://suzanne3d.com/favicon.png
+description: 'Suzanne (Suzanne 3D Inc., San Francisco) is an AI industrial-design platform that turns text prompts, photos
+  and sketches into manufacturable 3D designs with physics and manufacturing intelligence built in. The Suzanne API at api.suzanne3d.com
+  is a B2B surface for 3D mesh generation: submit a text-to-3D or photo-to-3D job against named models (sculptor, atelier,
+  capture) powered by its in-house Atelier2 engine, poll the job, and download GLB, OBJ, STL or FBX output.'
 url: https://raw.githubusercontent.com/api-evangelist/suzanne3d/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:monid-connectors
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-07 (local-v5; was harvest)
 specificationVersion: '0.20'
 created: '2026-10-07'
 modified: '2026-10-07'
 tags:
 - Company
-apis: []
+- 3D
+- 3D Models
+- Generative AI
+- Industrial Design
+- CAD
+- Mesh Generation
+- Text-to-3D
+- Photo-to-3D
+- Manufacturing
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: RateLimits
+  url: rate-limits/suzanne3d-rate-limits.yml
+- type: Plans
+  url: plans/suzanne3d-plans-pricing.yml
+- type: Spectral
+  url: rules/suzanne3d-rules.yml
+- type: JSONLD
+  url: json-ld/suzanne3d-context.jsonld
+- type: Vocabulary
+  url: vocabulary/suzanne3d-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataModel
+  url: data-model/suzanne3d-data-model.yml
+- type: Idempotency
+  url: conventions/suzanne3d-conventions.yml
+- type: Conventions
+  url: conventions/suzanne3d-conventions.yml
+- type: Sandbox
+  url: sandbox/suzanne3d-sandbox.yml
+- type: Security
+  url: https://www.suzanne3d.com/contact
+- type: VulnerabilityDisclosure
+  url: security/suzanne3d-vulnerability-disclosure.yml
+- type: Authentication
+  url: authentication/suzanne3d-authentication.yml
+- type: StatusPage
+  url: https://www.suzanne3d.com/status
+- type: Lifecycle
+  url: lifecycle/suzanne3d-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/suzanne3d-error-codes.yml
+- type: ErrorCatalog
+  url: errors/suzanne3d-problem-types.yml
+- type: Conformance
+  url: conformance/suzanne3d-conformance.yml
+- type: Overlay
+  url: overlays/suzanne3d-openapi-generated-overlay.yaml
+- type: Hosts
+  url: hosts/suzanne3d-hosts.yml
+- type: Vendors
+  url: vendors/suzanne3d-vendors.yml
 - type: Website
   url: https://suzanne3d.com
+- type: DeveloperPortal
+  url: https://console.suzanne3d.com/
+- type: Documentation
+  url: https://console.suzanne3d.com/documentation
+- type: APIReference
+  url: https://console.suzanne3d.com/documentation
+- type: GettingStarted
+  url: https://console.suzanne3d.com/documentation/quickstart
+- type: SignUp
+  url: https://console.suzanne3d.com/sign-up
+- type: Login
+  url: https://console.suzanne3d.com/sign-in
+- type: Blog
+  url: https://www.suzanne3d.com/blog
+- type: Tutorials
+  url: https://www.suzanne3d.com/guides
+- type: Support
+  url: https://www.suzanne3d.com/contact
+- type: About
+  url: https://www.suzanne3d.com/about
+- type: TermsOfService
+  url: https://www.suzanne3d.com/terms
+- type: PrivacyPolicy
+  url: https://www.suzanne3d.com/privacy
+- type: Twitter
+  url: https://twitter.com/trysuzanne
+- type: DomainSecurity
+  url: security/suzanne3d-domain-security.yml
+apis:
+- name: Suzanne API
+  description: REST API for turning a text prompt or 1-4 photos into a textured 3D mesh. Jobs are submitted to POST /v1/generations/text-to-3d
+    or /v1/generations/photo-to-3d against the sculptor, atelier or capture models, images are staged through presigned uploads
+    (POST /v1/uploads), jobs are polled at GET /v1/jobs/{job_id}, can be cancelled, and finished meshes are downloaded as
+    GLB, OBJ, STL or FBX via a 302 to a presigned URL. Bearer API keys (sznn_test_ / sznn_live_), an Idempotency-Key header
+    on generation POSTs, and a JSON error envelope.
+  image: https://kinlane-productions2.s3.amazonaws.com/apis-json-icons/api-evangelist-icon.png
+  humanURL: https://console.suzanne3d.com/documentation
+  baseURL: https://api.suzanne3d.com
+  tags:
+  - 3D
+  - Mesh Generation
+  - Text-to-3D
+  - Photo-to-3D
+  - Generative AI
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/_ae-authored/suzanne3d-openapi-generated.yml
+    x-provenance: generated
+  - type: Documentation
+    url: https://console.suzanne3d.com/documentation
+  - type: APIReference
+    url: https://console.suzanne3d.com/documentation
+  - type: GettingStarted
+    url: https://console.suzanne3d.com/documentation/quickstart
+  - type: Authentication
+    url: https://console.suzanne3d.com/documentation/authentication
+  - type: RateLimits
+    url: https://console.suzanne3d.com/documentation/limits
+  - type: Examples
+    url: https://console.suzanne3d.com/documentation/recipes
+  - type: JSONSchema
+    url: json-schema/suzanne3d-photo-to3d-request-schema.json
+  - type: JSONSchema
+    url: json-schema/suzanne3d-text-to3d-request-schema.json
+  - type: JSONSchema
+    url: json-schema/suzanne3d-job-schema.json
+  - type: JSONSchema
+    url: json-schema/suzanne3d-upload-created-schema.json
+  - type: JSONSchema
+    url: json-schema/suzanne3d-job-accepted-schema.json
+  - type: JSONSchema
+    url: json-schema/suzanne3d-cancel-result-schema.json
+  aid: suzanne3d:suzanne-api
+x-enrichment:
+  date: '2026-10-07'
+  status: enriched
+  artifacts_added: 31
+  pass: local-v5
+x-coverage:
+  state: none
+  reason: no-developer-program
+  method: derived
+  generated: '2026-10-07'
+  generator: derive-coverage.py (pre-flight evidence)
+  detail: >-
+    the company publishes no developer documentation host and no machine-readable contract on its own domain
+  evidence:
+  - url: https://suzanne3d.com
+    status: 200

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/suzanne3d/main/json-schema/suzanne3d-photo-to3d-request-schema.json",
+  "title": "PhotoTo3dRequest",
+  "x-generated": "2026-10-07",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/_ae-authored/suzanne3d-openapi-generated.yml#/components/schemas/PhotoTo3dRequest",
+  "type": "object",
+  "required": [
+    "model"
+  ],
+  "properties": {
+    "model": {
+      "type": "string",
+      "enum": [
+        "sculptor",
+        "atelier",
+        "capture"
+      ],
+      "description": "Stable named model; all three run on the Atelier2 engine."
+    },
+    "images_upload_ids": {
+      "type": "object",
+      "description": "Upload-then-reference (recommended, supports up to 4 views). front is required; back / left / right are optional for sculptor; capture requires all four.",
+      "properties": {
+        "front": {
+          "type": "string",
+          "description": "upl_<uuid> from POST /v1/uploads"
+        },
+        "back": {
+          "type": "string",
+          "description": "upl_<uuid> from POST /v1/uploads"
+        },
+        "left": {
+          "type": "string",
+          "description": "upl_<uuid> from POST /v1/uploads"
+        },
+        "right": {
+          "type": "string",
+          "description": "upl_<uuid> from POST /v1/uploads"
+        }
+      }
+    },
+    "images_inline": {
+      "type": "object",
+      "description": "Inline base64 (single-photo only, <= ~5 MB). Multi-view inline is not supported.",
+      "properties": {
+        "front": {
+          "type": "string",
+          "description": "base64-jpeg-or-png"
+        }
+      }
+    },
+    "params": {
+      "type": "object",
+      "description": "Generation Parameters (apply to text-to-3D and photo-to-3D).",
+      "properties": {
+        "faces": {
+          "type": "integer",
+          "enum": [
+            200000,
+            500000,
+            1000000,
+            2000000
+          ],
+          "default": 500000,
+          "description": "Target polygon count, chosen from a discrete menu. Values that do not apply to a given path are clamped to the closest supported value."
+        },
+        "pbr": {
+          "type": "boolean",
+          "default": true,
+          "description": "Generate PBR textures (base color + metallic-roughness + normal). Disable for flat-shaded output."
+        },
+        "quad": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, produces a quad-topology mesh (capped at 150000 faces, delivered as FBX)."
+        },
+        "texture_quality": {
+          "type": "string",
+          "enum": [
+            "standard",
+            "detailed"
+          ],
+          "description": "\"detailed\" for atelier, \"standard\" otherwise."
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "glb",
+          "obj",
+          "stl",
+          "fbx"
+        ]
+      },
+      "default": [
+        "glb"
+      ],
+      "description": "Any subset of [\"glb\", \"obj\", \"stl\", \"fbx\"] (default [\"glb\"])."
+    }
+  }
+}

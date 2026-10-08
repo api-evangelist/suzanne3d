@@ -1,0 +1,23 @@
+generated: '2026-10-07'
+method: searched
+source: https://www.suzanne3d.com/privacy
+signals: {}
+checked:
+- url: https://www.suzanne3d.com/privacy
+  http_status: 200
+  note: Privacy Policy (Last updated August 4, 2026) names Stripe and Supabase as third-party services but publishes
+    no dated subprocessor table, no data-residency statement and no DSR mechanism beyond the help@ inbox
+- url: https://www.suzanne3d.com/terms
+  http_status: 200
+  note: Terms of Service; no support-lifetime commitment
+- url: https://www.suzanne3d.com/accessibility
+  http_status: 200
+  note: SPA catch-all; renders a 404 page
+- url: https://www.suzanne3d.com/legal/subprocessors
+  http_status: 200
+  note: SPA catch-all; renders a 404 page
+- url: https://www.suzanne3d.com/security
+  http_status: 200
+  note: SPA catch-all; renders a 404 page
+note: No horizontal regulatory signal (SBOM, accessibility conformance, subprocessors, DPA, data residency, transparency
+  report, GPC statement) is published. Absence is the measurement.

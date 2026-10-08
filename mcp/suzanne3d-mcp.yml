@@ -1,0 +1,44 @@
+generated: '2026-10-07'
+method: derived
+generator: derive-mcp-candidate.py
+source:
+- openapi/_ae-authored/suzanne3d-openapi-generated.yml
+status: candidate
+deployment:
+  mode: none
+  auth: unknown
+  verified: probed
+note: No MCP server was found. The pre-flight posted tools/list to /mcp on api.suzanne3d.com, suzanne3d.com, app.suzanne3d.com, console.suzanne3d.com;
+  verdict absent. Candidate tools below are derived from the 6 operation(s) in the provider's own OpenAPI (6 listed); they describe what a server
+  WOULD expose, not one that exists.
+tools:
+- name: create_text_to3d_generation
+  operationId: createTextTo3dGeneration
+  method: POST
+  path: /v1/generations/text-to-3d
+  description: Submit a text-to-3D job
+- name: create_photo_to3d_generation
+  operationId: createPhotoTo3dGeneration
+  method: POST
+  path: /v1/generations/photo-to-3d
+  description: Submit a photo-to-3D job
+- name: create_upload
+  operationId: createUpload
+  method: POST
+  path: /v1/uploads
+  description: Create a presigned upload URL
+- name: get_job
+  operationId: getJob
+  method: GET
+  path: /v1/jobs/{job_id}
+  description: Poll job status
+- name: cancel_job
+  operationId: cancelJob
+  method: POST
+  path: /v1/jobs/{job_id}/cancel
+  description: Cancel a queued or running job
+- name: download_model
+  operationId: downloadModel
+  method: GET
+  path: /v1/models/{job_id}/download
+  description: Download the mesh

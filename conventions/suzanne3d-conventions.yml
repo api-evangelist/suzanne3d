@@ -1,0 +1,106 @@
+generated: '2026-10-07'
+method: searched
+source: https://console.suzanne3d.com/documentation/idempotency
+sources:
+- https://console.suzanne3d.com/documentation/idempotency
+- https://console.suzanne3d.com/documentation/errors
+- https://console.suzanne3d.com/documentation/authentication
+- https://console.suzanne3d.com/documentation/jobs
+- https://console.suzanne3d.com/documentation/cancel-job
+- https://console.suzanne3d.com/documentation/download-model
+- https://console.suzanne3d.com/documentation/limits
+authentication:
+  style: bearer-api-key
+  header: 'Authorization: Bearer <key>'
+  key_prefixes:
+    sandbox: sznn_test_
+    production: sznn_live_
+  docs: https://console.suzanne3d.com/documentation/authentication
+  artifact: authentication/suzanne3d-authentication.yml
+idempotency:
+  coverage: partial
+  mechanism: client-supplied idempotency key on generation POSTs
+  header: Idempotency-Key
+  retention: 24 h
+  scope:
+  - createTextTo3dGeneration
+  - createPhotoTo3dGeneration
+  not_covered:
+  - createUpload
+  - cancelJob
+  conflict: Different request body + same key -> 409 idempotency_key_conflict
+  statement: 'Pass Idempotency-Key: <your-random-key> on any POST /v1/generations/... request to make the call safe
+    to retry. The first call creates the job; subsequent calls with the same key (within 24 h) return the original
+    response without creating a duplicate.'
+  docs: https://console.suzanne3d.com/documentation/idempotency
+reversibility:
+  verdict: documented
+  write_surfaces:
+  - operation: createTextTo3dGeneration
+    reversal: cancelJob
+    reversal_path: POST /v1/jobs/{job_id}/cancel
+    window: Cancel a queued or running job. Best-effort; running jobs are refunded if cancellation lands in time.
+    docs: https://console.suzanne3d.com/documentation/cancel-job
+  - operation: createPhotoTo3dGeneration
+    reversal: cancelJob
+    reversal_path: POST /v1/jobs/{job_id}/cancel
+    window: Cancel a queued or running job. Best-effort; running jobs are refunded if cancellation lands in time.
+    docs: https://console.suzanne3d.com/documentation/cancel-job
+  - operation: createUpload
+    reversal: null
+    window: Uploaded objects auto-expire after 7 days; no delete operation is documented.
+    docs: https://console.suzanne3d.com/documentation/uploads
+  - operation: cancelJob
+    reversal: null
+    window: 'A cancellation cannot be undone; already_terminal: true means the final state stands.'
+    docs: https://console.suzanne3d.com/documentation/cancel-job
+  refunds: Failures are surfaced as vendor_model_error with a descriptive message, and the request is refunded.
+    Running jobs cancelled in time are refunded.
+  note: The window is a state condition (queued or running) rather than a stated time period; no time-bounded refund
+    window is published.
+pagination:
+  style: none
+  note: No list endpoints are documented; every read is by job_id.
+field_expansion: null
+metadata: null
+request_tracing:
+  field: error.request_id
+  note: Every error response carries request_id; always include request_id in support requests. No request-id response
+    header is documented.
+  docs: https://console.suzanne3d.com/documentation/errors
+versioning:
+  scheme: url-path
+  current: v1
+  docs: https://console.suzanne3d.com/documentation/
+  artifact: lifecycle/suzanne3d-lifecycle.yml
+error_envelope:
+  shape: '{ "error": { "type", "code", "message", "request_id" } }'
+  types:
+  - invalid_request
+  - auth
+  - rate_limit
+  - internal
+  - vendor
+  docs: https://console.suzanne3d.com/documentation/errors
+  artifact: errors/suzanne3d-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  exhaustion_status: 409
+  exhaustion_code: concurrent_limit_reached
+  note: No rate-limit headers or 429 are documented; the only published ceiling is concurrent jobs per account (default
+    10).
+  docs: https://console.suzanne3d.com/documentation/limits
+  artifact: rate-limits/suzanne3d-rate-limits.yml
+async_pattern:
+  style: submit-poll-download
+  statuses:
+  - queued
+  - running
+  - done
+  - failed
+  - cancelled
+  poll_interval: Poll every 5–10 s; give up after 20 min
+  docs: https://console.suzanne3d.com/documentation/jobs
+dry_run_mode:
+  coverage: none
+  note: No dry-run or validate-only mode is documented.

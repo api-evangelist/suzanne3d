@@ -1,0 +1,57 @@
+generated: '2026-10-07'
+method: searched
+source: https://console.suzanne3d.com/documentation/limits
+name: Suzanne API limits and quotas
+published: true
+note: The Limits & Quotas page publishes concurrency, size and TTL limits but no requests-per-window rate limit
+  and no rate-limit response headers. Exhausting the concurrent-jobs ceiling returns HTTP 409 concurrent_limit_reached,
+  not 429. Every limit_text is copied verbatim from the page.
+limit_count: 8
+limits:
+- name: Max concurrent jobs per account
+  limit_text: Max concurrent jobs per account Configurable (default 10)
+  limit: 10
+  scope: per-account
+  kind: concurrency
+  note: Configurable per account; default 10. Exceeding it returns 409 concurrent_limit_reached.
+- name: Inline image size
+  limit_text: Inline image size ~5 MB (API Gateway body cap)
+  scope: per-request
+  kind: payload
+  endpoint: POST /v1/generations/photo-to-3d
+- name: Uploaded image size
+  limit_text: Uploaded image size ≤ 20 MB
+  limit: 20
+  scope: per-upload
+  kind: payload
+  endpoint: POST /v1/uploads
+  note: MB
+- name: Uploaded image lifetime
+  limit_text: Uploaded image lifetime 7 days
+  scope: per-upload
+  kind: ttl
+  endpoint: POST /v1/uploads
+- name: Idempotency key TTL
+  limit_text: Idempotency key TTL 24 h
+  scope: per-key
+  kind: ttl
+- name: Presigned PUT TTL
+  limit_text: Presigned PUT TTL 5 min
+  scope: per-upload
+  kind: ttl
+  endpoint: POST /v1/uploads
+- name: Presigned download TTL
+  limit_text: Presigned download TTL 15 min
+  scope: per-download
+  kind: ttl
+  endpoint: GET /v1/models/{job_id}/download
+- name: Polling, max practical wait
+  limit_text: Polling, max practical wait 20 min
+  scope: per-job
+  kind: guidance
+  endpoint: GET /v1/jobs/{job_id}
+headers: []
+exceeded_status: 409
+exceeded_code: concurrent_limit_reached
+retry_guidance: Hitting the concurrent-jobs ceiling returns 409 concurrent_limit_reached . Back off and retry; do
+  not retry on validation_error or other 4xx codes.

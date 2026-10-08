@@ -1,0 +1,104 @@
+generated: '2026-10-07'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 6
+  own: 5
+  other_domain: 0
+  platform: 1
+  roles:
+  - api
+  - other
+  - portal
+  - status
+  - website
+hosts:
+- host: api.suzanne3d.com
+  found_by:
+  - apis[]
+  - contract-discovery
+  - vendor-detect
+  types: []
+  serves:
+  - api
+  - api-gateway
+  vendor: aws-api-gateway
+  registrable_domain: suzanne3d.com
+  role: api
+  relation: own
+- host: app.suzanne3d.com
+  found_by:
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: suzanne3d.com
+  role: other
+  relation: own
+- host: console.suzanne3d.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - DeveloperPortal
+  - Documentation
+  - APIReference
+  - GettingStarted
+  - SignUp
+  - Login
+  serves:
+  - docs
+  - cdn
+  vendor: cloudfront
+  registrable_domain: suzanne3d.com
+  role: portal
+  relation: own
+- host: suzanne3d.com
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  types:
+  - Website
+  serves: []
+  registrable_domain: suzanne3d.com
+  role: website
+  relation: own
+- host: twitter.com
+  found_by:
+  - pointer
+  types:
+  - Twitter
+  serves: []
+  registrable_domain: twitter.com
+  role: other
+  relation: platform
+- host: www.suzanne3d.com
+  found_by:
+  - pointer
+  - vendor-detect
+  types:
+  - Security
+  - StatusPage
+  - Blog
+  - Tutorials
+  - Support
+  - About
+  - TermsOfService
+  - PrivacyPolicy
+  serves:
+  - hosting
+  vendor: vercel
+  registrable_domain: suzanne3d.com
+  role: status
+  relation: own

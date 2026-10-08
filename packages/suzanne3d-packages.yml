@@ -1,0 +1,12 @@
+generated: '2026-10-07'
+method: none
+source: https://console.suzanne3d.com/documentation/recipes
+note: 'No first-party client library found. Checked registry.npmjs.org search (suzanne3d: 0 results; suzanne3d,
+  @suzanne3d/sdk: 404), pypi.org/pypi/suzanne3d and /suzanne (404), the GitHub org github.com/Suzanne3D (exists,
+  0 public repos) and the docs: the Recipes page ships raw requests/fetch snippets, and the Integrate with Claude
+  Code page is a prompt for generating a client in your own repo rather than an SDK.'
+registries_checked:
+- npm
+- PyPI
+- GitHub
+packages: []

@@ -1,0 +1,31 @@
+generated: '2026-10-07'
+method: searched
+source: https://console.suzanne3d.com/documentation/authentication
+docs: https://console.suzanne3d.com/documentation/authentication
+summary: Every Suzanne API request is authenticated with a Bearer API key issued to the account; keys are prefixed
+  sznn_test_ (sandbox) or sznn_live_ (production) and are server-side only. No OAuth, no scopes reference page (a
+  403 forbidden_scope error is documented, so keys do carry scopes, but none are enumerated).
+schemes:
+- name: bearer
+  type: http
+  scheme: bearer
+  in: header
+  header: Authorization
+  format: Bearer sznn_test_xxx | Bearer sznn_live_xxx
+  key_prefixes:
+    sandbox: sznn_test_
+    production: sznn_live_
+  statement: 'Every request requires a Bearer token issued to your account. Keys start with sznn_test_ (sandbox)
+    or sznn_live_ (production). Treat them like a password: server-side only, never in client code.'
+  issued_from: https://console.suzanne3d.com/dashboard
+  applies_to: all operations
+  docs: https://console.suzanne3d.com/documentation/authentication
+errors:
+- status: 401
+  code: unauthorized
+  meaning: Missing / bad API key.
+- status: 403
+  code: forbidden_scope
+  meaning: Key lacks the required scope.
+oauth: false
+scopes_documented: false

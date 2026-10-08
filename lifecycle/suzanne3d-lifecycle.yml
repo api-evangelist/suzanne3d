@@ -1,0 +1,27 @@
+generated: '2026-10-07'
+method: searched
+source: https://console.suzanne3d.com/documentation
+sources:
+- https://console.suzanne3d.com/documentation
+- https://console.suzanne3d.com/documentation/models
+- https://www.suzanne3d.com/status
+versioning:
+  scheme: url-path
+  current: v1
+  evidence: The reference is labelled Suzanne Reference v1 and every route is under /v1/ on https://api.suzanne3d.com
+  stability_statement: The contract is stable even as we swap models underneath. The Atelier2 engine version powering
+    each path is intentionally not part of the public contract; it can change without warning.
+  docs: https://console.suzanne3d.com/documentation/models
+deprecation:
+  policy: null
+  headers: null
+  note: No deprecation or sunset policy is published; no Deprecation/Sunset headers are documented.
+sla:
+  published: false
+  latency_guidance: Typical job latency is 30 s – 2 min for single-image, 1 – 4 min for multi-view. Poll every 5–10
+    s; give up after 20 min and assume the job is stuck (open a support ticket).
+  docs: https://console.suzanne3d.com/documentation/jobs
+status_page: https://www.suzanne3d.com/status
+status_page_note: First-party status page listing Editor, Text → 3D generation, Photo → 3D generation, Sketch →
+  3D generation, Stripe billing and Model exports with recent incidents; JavaScript-rendered.
+deprecated_operations: []
