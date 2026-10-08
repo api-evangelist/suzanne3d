@@ -30,6 +30,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Pricing
+  url: https://www.suzanne3d.com/terms
 - type: RateLimits
   url: rate-limits/suzanne3d-rate-limits.yml
 - type: Plans
