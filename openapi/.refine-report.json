@@ -1,0 +1,21 @@
+{
+  "provider": "suzanne3d",
+  "sources": [
+    "_ae-authored/suzanne3d-openapi-generated.yml"
+  ],
+  "outputs": [
+    "suzanne3d-generations-api-openapi.yml",
+    "suzanne3d-jobs-api-openapi.yml",
+    "suzanne3d-models-api-openapi.yml",
+    "suzanne3d-uploads-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "suzanne3d-openapi-generated.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+4 apis, 4 total)"
+  ],
+  "skipped": []
+}
