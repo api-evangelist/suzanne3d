@@ -145,6 +145,8 @@ apis:
   humanURL: https://console.suzanne3d.com/documentation
   baseURL: https://api.suzanne3d.com
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
